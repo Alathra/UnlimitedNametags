@@ -1,5 +1,7 @@
 package org.alexdev.unlimitednametags;
 
+import com.alessiodp.libby.BukkitLibraryManager;
+import com.alessiodp.libby.Library;
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import com.google.common.collect.Lists;
@@ -7,14 +9,12 @@ import com.google.common.collect.Maps;
 import com.jonahseguin.drink.CommandService;
 import com.jonahseguin.drink.Drink;
 import lombok.Getter;
-import net.byteflux.libby.BukkitLibraryManager;
-import net.byteflux.libby.Library;
 import org.alexdev.unlimitednametags.api.UNTAPI;
 import org.alexdev.unlimitednametags.commands.MainCommand;
 import org.alexdev.unlimitednametags.config.ConfigManager;
-import org.alexdev.unlimitednametags.listeners.*;
 import org.alexdev.unlimitednametags.hook.*;
 import org.alexdev.unlimitednametags.hook.hat.HatHook;
+import org.alexdev.unlimitednametags.listeners.*;
 import org.alexdev.unlimitednametags.metrics.Metrics;
 import org.alexdev.unlimitednametags.nametags.ConditionalManager;
 import org.alexdev.unlimitednametags.nametags.NameTagManager;
@@ -96,24 +96,74 @@ public final class UnlimitedNameTags extends JavaPlugin {
     }
 
     private CompletableFuture<Void> loadLibraries() {
-        if (isPaper) {
-            return CompletableFuture.completedFuture(null);
-        }
+
         final BukkitLibraryManager bukkitLibraryManager = new BukkitLibraryManager(this);
+        bukkitLibraryManager.addRepository("https://maven-central.storage-download.googleapis.com/maven2");
         bukkitLibraryManager.addMavenCentral();
+        bukkitLibraryManager.addRepository("https://s01.oss.sonatype.org/content/repositories/snapshots/");
 
         final List<Library> libraries = Lists.newArrayList(
-                Library.builder()
-                        .groupId("net{}kyori")
-                        .artifactId("adventure-text-minimessage")
-                        .version("4.17.0")
-                        .relocate("net{}]kyori{}adventure{}text{}serializer", "io{}github{}retrooper{}packetevents{}adventure{}serializer")
-                        .build()
+
         );
 
-        return CompletableFuture.runAsync(() -> {
-            libraries.forEach(bukkitLibraryManager::loadLibrary);
-        });
+        //  - de.exlll:configlib-yaml:${configlibVersion}
+        //  - de.exlll:configlib-paper:${configlibVersion}
+
+//        libraries.add(Library.builder()
+//                .groupId("de.exlll")
+//                .artifactId("configlib-yaml")
+//                .version(LibVersions.CONFIG_LIB_VERSION)
+//                .isolatedLoad(false)
+//                .build());
+//        libraries.add(Library.builder()
+//                .groupId("de.exlll")
+//                .artifactId("configlib-paper")
+//                .version(LibVersions.CONFIG_LIB_VERSION)
+//                .isolatedLoad(false)
+//                .build());
+//        //core
+//        libraries.add(Library.builder()
+//                .groupId("de.exlll")
+//                .artifactId("configlib-core")
+//                .version(LibVersions.CONFIG_LIB_VERSION)
+//                .isolatedLoad(false)
+//                .build());
+//        //snake yaml implementation("org.yaml:snakeyaml:2.4")
+//        libraries.add(Library.builder()
+//                .groupId("org.yaml")
+//                .artifactId("snakeyaml")
+//                .version("2.4")
+//                .isolatedLoad(false)
+//                .build());
+
+        if (!isPaper) {
+            libraries.add(Library.builder()
+                    .groupId("net{}kyori")
+                    .artifactId("adventure-text-minimessage")
+                    .version("4.17.0")
+                    .relocate("net{}]kyori{}adventure{}text{}serializer", "io{}github{}retrooper{}packetevents{}adventure{}serializer")
+                    .build());
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("ItemsAdder")) {
+            libraries.add(Library.builder()
+                    .groupId("team.unnamed")
+                    .artifactId("creative-server")
+                    .version("1.8.2-SNAPSHOT")
+                    .build());
+            libraries.add(Library.builder()
+                    .groupId("team.unnamed")
+                    .artifactId("creative-serializer-minecraft")
+                    .version("1.8.2-SNAPSHOT")
+                    .build());
+            libraries.add(Library.builder()
+                    .groupId("team.unnamed")
+                    .artifactId("creative-api")
+                    .version("1.8.2-SNAPSHOT")
+                    .build());
+        }
+
+        return CompletableFuture.runAsync(() -> libraries.forEach(bukkitLibraryManager::loadLibrary));
     }
 
     private void loadListeners() {
@@ -129,6 +179,7 @@ public final class UnlimitedNameTags extends JavaPlugin {
                 getServer().getPluginManager().disablePlugin(this);
                 return;
             }
+
             getLogger().info("Paper not found, using Spigot's tracker");
             Bukkit.getPluginManager().registerEvents(new SpigotTrackerListener(this), this);
         }
@@ -174,24 +225,31 @@ public final class UnlimitedNameTags extends JavaPlugin {
         }
 
         if (Bukkit.getPluginManager().isPluginEnabled("Nexo")) {
+            getLogger().info("Nexo found, hooking into it");
             final NexoHook hook = new NexoHook(this);
             hatHooks.add(hook);
             hooks.put(NexoHook.class, hook);
-            getLogger().info("Nexo found, hooking into it");
         }
 
         if (Bukkit.getPluginManager().isPluginEnabled("Oraxen")) {
+            getLogger().info("Oraxen found, hooking into it");
             final OraxenHook hook = new OraxenHook(this);
             hatHooks.add(hook);
             hooks.put(OraxenHook.class, hook);
-            getLogger().info("Oraxen found, hooking into it");
         }
 
         if (Bukkit.getPluginManager().isPluginEnabled("ItemsAdder")) {
+            getLogger().info("ItemsAdder found, hooking into it");
             final ItemsAdderHook hook = new ItemsAdderHook(this);
             hatHooks.add(hook);
             hooks.put(ItemsAdderHook.class, hook);
-            getLogger().info("ItemsAdder found, hooking into it");
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("HMCCosmetics")) {
+            getLogger().info("HMCCosmetics found, hooking into it");
+            final HMCCosmeticsHook hook = new HMCCosmeticsHook(this);
+            hatHooks.add(hook);
+            hooks.put(HMCCosmeticsHook.class, hook);
         }
 
 
@@ -211,6 +269,12 @@ public final class UnlimitedNameTags extends JavaPlugin {
             final FloodgateHook hook = new FloodgateHook(this);
             hooks.put(FloodgateHook.class, hook);
             getLogger().info("Floodgate found, hooking into it");
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("LibsDisguises")) {
+            final LibsDisguisesHook hook = new LibsDisguisesHook(this);
+            hooks.put(LibsDisguisesHook.class, hook);
+            getLogger().info("LibsDisguises found, hooking into it");
         }
 
         hooks.values().forEach(Hook::onEnable);

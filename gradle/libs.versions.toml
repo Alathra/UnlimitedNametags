@@ -1,9 +1,6 @@
 [versions]
 paperApiVersion = "1.21.4-R0.1-SNAPSHOT"
 adventureApiVersion = "4.16.0"
-adventureTextMinimessageVersion = "4.17.0"
-adventureTextSerializerLegacyVersion = "4.17.0"
-adventurePlatformBukkitVersion = "4.3.3"
 typeWriterVersion = "0.7.0"
 lombokVersion = "1.18.30"
 placeholderapiVersion = "2.11.6"
@@ -11,24 +8,25 @@ miniplaceholdersApiVersion = "2.2.3"
 floodgateApiVersion = "2.2.3-SNAPSHOT"
 geyserApiVersion = "2.4.2-SNAPSHOT"
 commonsLangVersion = "3.14.0"
-configlibVersion = "4.5.0"
+configlibVersion = "4.6.1"
 minedownAdventureVersion = "1.7.2-SNAPSHOT"
 drinkVersion = "1.5.3"
 entityLibVersion = "+39cce79-SNAPSHOT"
 packeteventsSpigotVersion = "2.7.0"
 universalSchedulerVersion = "0.1.6"
 viaVersionApiVersion = "5.0.1"
-libbyBukkitVersion = "1.3.1"
+libbyBukkitVersion = "2.0.0-SNAPSHOT"
 bstatsBukkitVersion = "3.0.2"
 expiringMapVersion = "0.5.11"
 commonsJexl3Version = "3.4.0"
-nexoVersion = "1.0.0-dev.25"
+nexoVersion = "1.2.0"
 oraxenVersion = "1.174.0"
 itemsAdderVersion = "3.6.1"
 gsonVersion = "2.11.0"
 hmccosmeticsVersion = "2.7.4"
-creative-rp = "1.7.3"
-creative-serializer = "1.7.3"
+creative-rp = "1.8.2-SNAPSHOT"
+creative-serializer = "1.8.2-SNAPSHOT"
+libs-disguises = "11.0.0"
 
 [libraries]
 paperApi = { module = "io.papermc.paper:paper-api", version.ref = "paperApiVersion" }
@@ -48,7 +46,7 @@ entityLib = { module = "me.tofaa.entitylib:spigot", version.ref = "entityLibVers
 packeteventsSpigot = { module = "com.github.retrooper:packetevents-spigot", version.ref = "packeteventsSpigotVersion" }
 universalScheduler = { module = "com.github.Anon8281:UniversalScheduler", version.ref = "universalSchedulerVersion" }
 viaVersionApi = { module = "com.viaversion:viaversion-api", version.ref = "viaVersionApiVersion" }
-libbyBukkit = { module = "net.byteflux:libby-bukkit", version.ref = "libbyBukkitVersion" }
+libbyBukkit = { module = "com.alessiodp.libby:libby-bukkit", version.ref = "libbyBukkitVersion" }
 bstatsBukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstatsBukkitVersion" }
 expiringMap = { module = "net.jodah:expiringmap", version.ref = "expiringMapVersion" }
 commonsJexl3 = { module = "org.apache.commons:commons-jexl3", version.ref = "commonsJexl3Version" }
@@ -59,3 +57,4 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 hmccosmetics = { module = "com.hibiscusmc:HMCCosmetics", version.ref = "hmccosmeticsVersion" }
 creative-rp = { module = "team.unnamed:creative-api", version.ref = "creative-rp" }
 creative-serializer = { module = "team.unnamed:creative-serializer-minecraft", version.ref = "creative-serializer" }
+libs-disguises = { module = "me.libraryaddict.disguises:libsdisguises", version.ref = "libs-disguises" }
