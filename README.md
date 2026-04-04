@@ -73,6 +73,9 @@ Enhance your server's customization by tailoring player name tags, integrating d
 5. **Configure**  
    Customize the `settings.yml` file located in the plugin's folder to suit your server’s needs.
 
+6. **Optional `advanced.yml`**  
+   For manual helmet → nametag height rules (e.g. ItemsAdder / custom CMD without relying on resource-pack parsing), copy [`advanced.example.yml`](advanced.example.yml) to `plugins/UnlimitedNameTags/advanced.yml` and adjust. The file is never created automatically; `/unt reload` reloads it when present.
+
 ---
 
 ## 🛠️ **Commands**
@@ -115,8 +118,6 @@ Unlimited Name Tags works seamlessly with:
 - **[Oraxen](https://oraxen.com/)**: Ensures compatibility with 3D helmets.
 - **MiniPlaceholders**: Works when using MiniMessage for advanced formatting.
 - **Custom Plugins**: Easily hook into your custom plugins to extend functionality.
-
----
 
 ## 📜 **Supported Versions**
 - **Paper**: Fully supported from **1.20.1+** *(highly recommended)*.
